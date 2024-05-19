@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Test Seite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>XSS Test Seite</h1>
+    <form action="index.html" method="GET">
+        <label for="user-input">Geben Sie etwas ein:</label>
+        <input type="text" id="user-input" name="input">
+        <button type="submit" id="btn-submit">Abschicken</button>
+    </form>
+
+    <div id="output">
+        <p>Sie haben eingegeben: <span id="user-output"></span></p>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const userInput = params.get('input');
+        if (userInput) {
+            document.getElementById('user-output').innerHTML = userInput;
+        }
+    </script>
+</body>
+</html>
