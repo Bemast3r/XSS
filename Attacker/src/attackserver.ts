@@ -13,11 +13,14 @@ app.post('/xss-payload', (req, res) => {
     const payload = req.body.payload;
     console.log('Received XSS payload:', payload);
     res.sendStatus(200);
-    
+
 });
+
+
+app.get("/", (_, res) => { res.send('Attacker Server'); });
 
 // Server starten
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Attacker server is running on port http://localhost:${port}`);
 });
 

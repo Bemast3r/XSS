@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "backend": "npm start --prefix backend",
+    "attacker": "npm start --prefix Attacker",
+    "start": "concurrently \"npm run backend\" \"npm run attacker\"",
+    "update": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../Attacker && npm install && echo Updated dependencies for all 3 directories"
+
+  }
+}
