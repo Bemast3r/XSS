@@ -13,6 +13,7 @@ app.post('/xss-payload', (req, res) => {
     const payload = req.body.payload;
     console.log('Received XSS payload:', payload);
     res.sendStatus(200);
+    
 });
 
 // Server starten
