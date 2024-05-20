@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XSS Test Seite</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h1>XSS Test Seite</h1>
     <form action="index.html" method="GET">
@@ -19,6 +21,19 @@
     </div>
 
     <script>
+        document.cookie = 'user=uniqueUserId' + Date.now() + '; path=/;';
+        function getCookie(name) {
+            let value = "; " + document.cookie;
+            let parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        const userCookie = getCookie("user");
+        if (userCookie) {
+            console.log("User Cookie: " + userCookie);
+        } else {
+            console.log("Cookie nicht gesetzt");
+        }
         const params = new URLSearchParams(window.location.search);
         const userInput = params.get('input');
         if (userInput) {
@@ -26,4 +41,5 @@
         }
     </script>
 </body>
+
 </html>

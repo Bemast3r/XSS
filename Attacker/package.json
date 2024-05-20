@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -10,6 +11,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/attackserver.ts"
+    "start": "nodemon"
   }
 }
