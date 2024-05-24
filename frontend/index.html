@@ -1,45 +1,20 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XSS Test Seite</title>
     <link rel="stylesheet" href="style.css">
+    <title>Login Seite</title>
+    
 </head>
-
 <body>
-    <h1>XSS Test Seite</h1>
-    <form action="index.html" method="GET">
-        <label for="user-input">Geben Sie etwas ein:</label>
-        <input type="text" id="user-input" name="input">
-        <button type="submit" id="btn-submit">Abschicken</button>
-    </form>
-
-    <div id="output">
-        <p>Sie haben eingegeben: <span id="user-output"></span></p>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="Benutzername" required autocomplete="false">
+            <input type="password" name="password" placeholder="Passwort" required>
+            <input type="submit" value="Einloggen">
+        </form>
     </div>
-
-    <script>
-        document.cookie = 'user=uniqueUserId' + Date.now() + '; path=/;';
-        function getCookie(name) {
-            let value = "; " + document.cookie;
-            let parts = value.split("; " + name + "=");
-            if (parts.length === 2) return parts.pop().split(";").shift();
-        }
-
-        const userCookie = getCookie("user");
-        if (userCookie) {
-            console.log("User Cookie: " + userCookie);
-        } else {
-            console.log("Cookie nicht gesetzt");
-        }
-        const params = new URLSearchParams(window.location.search);
-        const userInput = params.get('input');
-        if (userInput) {
-            document.getElementById('user-output').innerHTML = userInput;
-        }
-    </script>
 </body>
-
 </html>
