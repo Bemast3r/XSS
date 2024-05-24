@@ -1,7 +1,7 @@
 import { User } from "../../Model/UserModel";
 
 
-export async function login(username: string, password: string): Promise<{ success: boolean, id?: string, name?: string, role?: "u" | "a" | "m" }> {
+export async function login(username: string, password: string): Promise<{ success: boolean, id?: string, name?: string, role?: "u" | "a"  }> {
     if (!password) {
         throw new Error("password is not defined");
     }
