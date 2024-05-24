@@ -18,9 +18,6 @@ export async function login(username: string, password: string): Promise<{ succe
     if (user.admin) {
         return { success: true, id: user._id.toString(), name: user.name, role: "a" };
 
-    } else if (user.mod) {
-        return { success: true, id: user._id.toString(), name: user.name, role: "m" };
-
     } else {
         return { success: true, id: user._id.toString(), name: user.name, role: "u" };
     }
