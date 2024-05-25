@@ -14,20 +14,34 @@
         <label for="user-input">Geben Sie etwas ein:</label>
         <input type="text" id="user-input" name="input">
         <button type="submit" id="btn-submit">Abschicken</button>
+
     </form>
 
     <div id="output">
         <p>Sie haben eingegeben: <span id="user-output"></span></p>
     </div>
 
-    <script>
-        document.cookie = 'user=uniqueUserId' + Date.now() + '; path=/;';
+    <div id="logout">
+        <button type="submit" id="delete-jwt">Abmelden</button>
+    </div>
 
+    <script>
+        window.onload = () => { 
+            if(!document.cookie){
+                document.cookie = 'user=uniqueUserId' + 1 + '; path=/;';
+            }
+        }
         const params = new URLSearchParams(window.location.search);
         const userInput = params.get('input');
         if (userInput) {
             document.getElementById('user-output').innerHTML = userInput;
         }
+
+        document.getElementById('delete-jwt').addEventListener('click', () => {
+
+            window.location.href = '/';
+        });
+
     </script>
 </body>
 

@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import loginRouter from './Login/LoginRouter';
+import mongoose from 'mongoose';
+import { prefillAdmin, prefillUser } from './util/prefill';
 
 const app = express();
 const port = 3000;
@@ -17,4 +19,12 @@ app.use("/api/login", loginRouter);
 
 app.listen(port, () => {
     console.log(`Website Server is running http://localhost:${port}`);
+});
+
+mongoose.connect("mongodb://localhost:27017");
+mongoose.connection.on("error", (error) => console.log(error));
+mongoose.connection.once("open", async () => {
+    await prefillAdmin()
+    await prefillUser()
+    console.log("Erfolgreich mit der Datenbank verbunden!");
 });
