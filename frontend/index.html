@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Login Seite</title>
-    
+
 </head>
+
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="Benutzername" required autocomplete="false">
+        <form action="Echoinput.html" method="GET">
+            <input type="text" name="name" placeholder="Benutzername" required autocomplete="false">
             <input type="password" name="password" placeholder="Passwort" required>
             <input type="submit" value="Einloggen">
         </form>
     </div>
 </body>
+
+<script src="script/home.js"></script>
+
 </html>
