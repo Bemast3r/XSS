@@ -3,6 +3,7 @@ import path from 'path';
 import loginRouter from './Login/LoginRouter';
 import mongoose from 'mongoose';
 import { prefillAdmin, prefillUser } from './util/prefill';
+import userRouter from './User/UserRouter';
 
 const app = express();
 const port = 3000;
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
 app.use("/api/login/", loginRouter);
+app.use("/api/user", userRouter)
 
 
 app.listen(port, () => {

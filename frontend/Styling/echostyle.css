@@ -1,0 +1,28 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 50px; 
+}
+
+#output {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+#logout {
+    margin-top: 20px;
+}
+
+#delete-jwt {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#delete-jwt:hover {
+    background-color: #c82333;
+}

@@ -4,24 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <script src="./script/home.js"></script>
+    <link rel="stylesheet" href="Styling/style.css">
     <title>Login Seite</title>
 </head>
 
 <body>
     <div class="login-container">
         <h2>Login</h2>
+        <Alert id="message"></Alert>
         <form id="loginForm">
             <input type="text" name="name" placeholder="Benutzername" required autocomplete="off">
             <input type="password" name="password" placeholder="Passwort" required>
-            <input type="submit" value="Einloggen">
+            <input type="submit" value="Einloggen" id="login-btn">
         </form>
-        <div id="message"></div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); 
+        // https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
+        const parseJwt = (token) => {
+            try {
+                return JSON.parse(atob(token.split('.')[1]));
+            } catch (e) {
+                return null;
+            }
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
             const formData = new FormData(event.target);
             const data = {
                 name: formData.get('name'),
@@ -37,12 +47,15 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Error: ${response.statusText}`);
+                    throw new Error(`${response.statusText}`);
                 }
                 const result = await response.json();
-                console.log('Success:', result);
-                document.getElementById('message').textContent = 'Login erfolgreich!';
-                localStorage.setItem('access_token', result.access_token);
+                const token = result.access_token;
+                const decoded = parseJwt(token)
+                document.getElementById('login-btn').value = 'Login erfolgreich!';
+                document.cookie = `jwt=${result.access_token}; role=${decoded.role}; iat:${decoded.iat}; path=/; max-age=86400; SameSite=Strict`;
+                window.location.href = 'Echoinput.html';
+
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('message').textContent = 'Verbindung zum Server fehlgeschlagen.';
