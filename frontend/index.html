@@ -38,7 +38,7 @@
 
                 if (!response.ok) {
                     throw new Error(`Error: ${response.statusText}`);
-                }1111111
+                }
                 const result = await response.json();
                 console.log('Success:', result);
                 document.getElementById('message').textContent = 'Login erfolgreich!';
