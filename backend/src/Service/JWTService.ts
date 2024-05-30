@@ -6,7 +6,7 @@ const mongoUrl = process.env.MONGO_URL;
 const jwtSecret = process.env.JWT_SECRET || "VerySecret";
 const jwtTTL = process.env.JWT_TTL || "1d";
 
-export async function verifyPasswordAndCreateJWT(username: string, password: string): Promise<string | undefined> {
+export async function verifyPasswordAndCreateJWT(name: string, password: string): Promise<string | undefined> {
 
     const secret = jwtSecret
     if (!secret) {
@@ -18,7 +18,7 @@ export async function verifyPasswordAndCreateJWT(username: string, password: str
         throw new Error("JWT_TTL not set.");
     }
 
-    const loginResult = await login(username, password);
+    const loginResult = await login(name, password);
     if ((loginResult).success === false) {
         return undefined;
     }

@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 // Statische Dateien aus dem "frontend" Verzeichnis benutzen
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
-app.use("/api/login", loginRouter);
+app.use("/api/login/", loginRouter);
 
 
 app.listen(port, () => {
