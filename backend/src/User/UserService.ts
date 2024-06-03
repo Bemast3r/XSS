@@ -8,7 +8,8 @@ async function mapUserToResource(user: IUser & { _id: Types.ObjectId; }): Promis
         id: user._id.toString(),
         name: user.name,
         admin: user.admin,
-        createdAt: user.createdAt 
+        createdAt: user.createdAt,
+        bio: user.bio
     };
     return userResource;
 }
@@ -37,7 +38,7 @@ export async function createUser(userResource: UserResource): Promise<UserResour
         name: userResource.name,
         password: userResource.password,
         admin: userResource.admin,
-        mod: userResource.createdAt,
+        bio: userResource.bio,
     });
 
     if (!user) {
@@ -58,6 +59,7 @@ export async function updateUser(userResource: UserResource): Promise<UserResour
     }
 
     if (userResource.name) user.name = userResource.name;
+    if (userResource.bio) user.bio = userResource.bio;
     if (userResource.password) user.password = userResource.password;
     if (typeof userResource.admin === 'boolean') user.admin = userResource.admin;
     const savedUser = await user.save();

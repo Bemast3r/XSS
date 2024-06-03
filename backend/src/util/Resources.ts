@@ -5,6 +5,7 @@ export type UserResource = {
     password?: string;
     admin?: boolean;
     createdAt?: Date;
+    bio?:string
 }
 
 

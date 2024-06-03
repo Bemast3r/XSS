@@ -49,7 +49,7 @@ userRouter.get("/finde/:id", requiresAuthentication,
     }
 );
 
-userRouter.get("/admin/alle/user/", requiresAuthentication,
+userRouter.get("/admin/alle", requiresAuthentication,
     async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -69,7 +69,7 @@ userRouter.get("/admin/alle/user/", requiresAuthentication,
 );
 
 
-userRouter.get("/alle/admin/", requiresAuthentication,
+userRouter.get("/alle/admin", requiresAuthentication,
     async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -120,6 +120,7 @@ userRouter.post("/user-erstellen", requiresAuthentication,
  */
 userRouter.put("/user/aendern", requiresAuthentication,
     body("name").isString(),
+    body("bio").optional().isString(),
     body("password").optional().isString(),
     body("admin").isBoolean(),
     async (req: any, res: any, next: any) => {
