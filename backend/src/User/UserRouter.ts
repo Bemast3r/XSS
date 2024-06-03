@@ -118,11 +118,11 @@ userRouter.post("/user-erstellen", requiresAuthentication,
 /**
  * Ändere einen User.
  */
-userRouter.put("/user/aendern", requiresAuthentication,
-    body("name").isString(),
+userRouter.put("/aendern", requiresAuthentication,
+    body("name").optional().isString(),
     body("bio").optional().isString(),
     body("password").optional().isString(),
-    body("admin").isBoolean(),
+    body("admin").optional().isBoolean(),
     async (req: any, res: any, next: any) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
