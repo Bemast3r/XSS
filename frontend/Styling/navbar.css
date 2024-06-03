@@ -1,0 +1,31 @@
+
+nav{
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+nav >a{
+    margin-left: 15px;
+}
+
+#delete-jwt {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 5px ;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+#delete-jwt:hover {
+    background-color: #c82333;
+}
+.navbar-collapse {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-nav {
+    margin-right: auto;
+}

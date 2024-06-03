@@ -8,7 +8,7 @@ async function mapUserToResource(user: IUser & { _id: Types.ObjectId; }): Promis
         id: user._id.toString(),
         name: user.name,
         admin: user.admin,
-        createdAt: user.createdAt,
+        createdAt: user.createdAt 
     };
     return userResource;
 }

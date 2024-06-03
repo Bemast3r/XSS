@@ -32,7 +32,7 @@ userRouter.get("/admin/users", requiresAuthentication,
 /**
  * Suche einen User
  */
-userRouter.get("/admin/finde/user/:id", requiresAuthentication,
+userRouter.get("/finde/:id", requiresAuthentication,
     param("id").isMongoId(),
     async (req, res, next) => {
         const errors = validationResult(req);
@@ -93,7 +93,7 @@ userRouter.get("/alle/admin/", requiresAuthentication,
 /**
  * Erstellt einen Benutzer 
  */
-userRouter.post("/admin/user-erstellen", requiresAuthentication,
+userRouter.post("/user-erstellen", requiresAuthentication,
     body("name").isString(),
     body("password").isString(),
     body("admin").isBoolean(),
@@ -104,9 +104,6 @@ userRouter.post("/admin/user-erstellen", requiresAuthentication,
             return res.status(400).json({ errors: errors.array() });
         }
         try {
-            if (req.role !== "a") {
-                return res.sendStatus(403)
-            }
             const userRes = matchedData(req) as UserResource
             const user = await createUser(userRes);
             return res.send(user); // 200 by default
@@ -121,7 +118,7 @@ userRouter.post("/admin/user-erstellen", requiresAuthentication,
 /**
  * Ändere einen User.
  */
-userRouter.put("/admin/user/aendern", requiresAuthentication,
+userRouter.put("/user/aendern", requiresAuthentication,
     body("name").isString(),
     body("password").optional().isString(),
     body("admin").isBoolean(),
@@ -131,9 +128,6 @@ userRouter.put("/admin/user/aendern", requiresAuthentication,
             return res.status(400).json({ errors: errors.array() });
         }
         try {
-            if (req.role !== "a") {
-                return res.sendStatus(403)
-            }
             const userRes = req.body as UserResource; 
             const user = await updateUser(userRes);
             return res.send(user);
@@ -147,7 +141,7 @@ userRouter.put("/admin/user/aendern", requiresAuthentication,
 /**
  * Löscht den Benutzer
  */
-userRouter.delete("/admin/delete/:id", requiresAuthentication,
+userRouter.delete("/delete/:id", requiresAuthentication,
     param("id").isMongoId(),
     async (req, res, next) => {
         const errors = validationResult(req);
@@ -155,9 +149,6 @@ userRouter.delete("/admin/delete/:id", requiresAuthentication,
             return res.status(400).json({ errors: errors.array() });
         }
         try {
-            if (req.role !== "a") {
-                return res.sendStatus(403)
-            }
             const user = matchedData(req) as UserResource
             if(user.id){
                 const deleted = await deleteUser(user.id);

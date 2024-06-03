@@ -33,12 +33,12 @@ export async function verifyPasswordAndCreateJWT(name: string, password: string)
 }
 
 export function verifyJWT(jwtString: string | undefined): { userId: string, role: "u" | "a", name: string } {
-    const secret = process.env.JWT_SECRET;
+    const secret = jwtSecret;
     if (!secret) {
         throw Error("JWT_SECRET not set.");
     }
 
-    const ttl = process.env.JWT_TTL;
+    const ttl = jwtSecret;
     if (!ttl) {
         throw new Error("JWT_TTL not set.");
     }
