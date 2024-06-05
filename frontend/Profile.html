@@ -84,7 +84,7 @@
         document.getElementById('name').textContent = `Name: ${result.name}`;
         document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
         document.getElementById('created').textContent = `Erstellt am: ${new Date(result.createdAt).toUTCString()}`;
-        document.getElementById('bio').textContent = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
+        document.getElementById('bio').innerHTML = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
 
       } catch (error) {
         console.error('Error:', error);
@@ -145,7 +145,7 @@
         document.getElementById('name').textContent = `Name: ${result.name}`;
         document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
         document.getElementById('created').textContent = `Erstellt am: ${new Date(result.createdAt).toUTCString()}`;
-        document.getElementById('bio').textContent = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
+        document.getElementById('bio').innerHTML = result.bio ? result.bio : "Keine Bio.";
 
         // Convert inputs back to paragraphs
         inputs.forEach(input => {
@@ -153,7 +153,7 @@
           p.textContent = input.value;
           p.id = input.id
           if (input.id === "name") {
-            p.textContent = "Name: " + input.value 
+            p.textContent = "Name: " + input.value
           } else {
             p.textContent = "Bio: " + input.value
           }
