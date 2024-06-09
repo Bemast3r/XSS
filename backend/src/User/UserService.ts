@@ -24,8 +24,17 @@ export async function getUser(userid: string) {
 }
 
 
-export async function getUsersFromDB(): Promise<UserResource[]> {
-    const users = await User.find().sort({ nachname: 1 });
+// export async function getUsersFromDB(): Promise<UserResource[]> {
+//     const users = await User.find().sort({ name: 1 });
+//     if (!users) {
+//         throw new Error(`Keine User gefunden.`);
+//     }
+//     const userResources = await Promise.all(users.map(user => mapUserToResource(user)));
+//     return userResources;
+// }
+export async function getUsersFromDB(query:any) {
+    // Hier sollten Sie sicherstellen, dass Ihre Suchlogik mit einer Datenbankabfrage übereinstimmt
+    const users = await User.find({ name: new RegExp(query, 'i') }).sort({ name: 1 });
     if (!users) {
         throw new Error(`Keine User gefunden.`);
     }
@@ -74,25 +83,5 @@ export async function deleteUser(userId: string): Promise<void> {
         throw new Error(`Fehler beim Löschen des Benutzers: ${(error as Error).message}`);
     }
 }
-
-export async function getAlleUser(): Promise<UserResource[]> {
-    try {
-        const users = await getUsersFromDB();
-        return users;
-    } catch (error: any) {
-        throw new Error(`Fehler beim Abrufen aller Benutzer: ${error.message}`);
-    }
-}
-
-export async function getAlleAdmin(): Promise<UserResource[]> {
-    try {
-        const users = await getUsersFromDB();
-        const admins = users.filter(user => user.admin);
-        return admins;
-    } catch (error:any) {
-        throw new Error(`Fehler beim Abrufen aller Admin-Benutzer: ${error.message}`);
-    }
-}
-
 
 

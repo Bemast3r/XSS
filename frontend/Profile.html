@@ -84,11 +84,18 @@
     // User daten am Anfang
     document.addEventListener('DOMContentLoaded', async () => {
       try {
+        let id;
+        const params = new URLSearchParams(window.location.search);
+        id = params.get('id')
         const cookie = document.cookie
         const jwt = cookie.substring("jwt=".length)
-        const decode = parseJwt(jwt)
+        if (!id) {
+          const decode = parseJwt(jwt)
+          id = decode.sub
+        }
 
-        const response = await fetch(`http://localhost:3000/api/user/finde/${decode.sub}`, {
+
+        const response = await fetch(`http://localhost:3000/api/user/finde/${id}`, {
           method: 'GET',
           headers: {
             "Authorization": `Bearer ${jwt}`,

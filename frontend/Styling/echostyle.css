@@ -18,6 +18,15 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#search {
+    width: 90%;
+    height: 100%;
+}
+
+#search-submit{
+    display: flex;
+}
+
 #userInput >p{
     /* border: 2px solid rgb(0, 0, 0); Grüne Umrandung */
     margin-top: 10px;
