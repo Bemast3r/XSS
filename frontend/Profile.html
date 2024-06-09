@@ -89,9 +89,12 @@
         id = params.get('id')
         const cookie = document.cookie
         const jwt = cookie.substring("jwt=".length)
+        document.getElementById('settings-icon').style.display = 'none';
         if (!id) {
+          // Eigenes Profil
           const decode = parseJwt(jwt)
           id = decode.sub
+          document.getElementById('settings-icon').style.display = 'block';
         }
 
 
