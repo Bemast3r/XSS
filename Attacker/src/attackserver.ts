@@ -22,6 +22,7 @@ app.get('/xss', (req, res) => {
     }
 })
 
+// Ein Skript wird zurück gesendet.
 app.get('/xss_resend', (req, res) => {
     const cookieValue = req.query.cookie;
     const referer = req.headers.referer;
