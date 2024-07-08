@@ -4,8 +4,10 @@ window.onload = () => {
     const isOnEchoPage = window.location.pathname === '/Echoinput.html';
     if (!isLoggedIn && !isOnHomePage) {
         location.href = '/';
+
     }
     else if (isLoggedIn && isOnHomePage) {
+        location.href = '/Echoinput.html';
         if (Date.now() >= decode.exp * 1000) {
             window.location.href = "/";
             return null;

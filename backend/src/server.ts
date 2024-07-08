@@ -4,17 +4,17 @@ import loginRouter from './Login/LoginRouter';
 import mongoose from 'mongoose';
 import { prefillAdmin, prefillUser } from './util/prefill';
 import userRouter from './User/UserRouter';
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
 
-// Middleware für JSON und URL-kodierte Daten
+
+app.use(cors({ origin: "*" }))
+
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Statische Dateien aus dem "frontend" Verzeichnis benutzen
 app.use(express.static(path.join(__dirname, '../../frontend')));
-
 app.use("/api/login/", loginRouter);
 app.use("/api/user", userRouter)
 
@@ -30,3 +30,4 @@ mongoose.connection.once("open", async () => {
     await prefillUser()
     console.log("Erfolgreich mit der Datenbank verbunden!");
 });
+
