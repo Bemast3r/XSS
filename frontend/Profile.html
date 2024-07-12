@@ -18,7 +18,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="Echoinput.html" target="_parent">Navbar</a>
+    <a class="navbar-brand" href="Profile.html" target="_parent">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -31,10 +31,14 @@
         <li class="nav-item">
           <a class="nav-link" href="Profile.html">Profile</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Commentsection.html">Kommentare</a>
+        </li>
       </ul>
       <button type="button" class="btn btn-danger" id="delete-jwt">Abmelden</button>
     </div>
   </nav>
+
   <div class="container mt-5">
     <h1>User Profile <span><i class="fa-solid fa-gear icon" id="settings-icon"></i> </span>
       </button></span></h1>
@@ -50,26 +54,6 @@
     </div>
     <button id="save-button" class="btn btn-primary">Speichern</button>
   </div>
-  <!-- Besseres Bioinput. -->
-  <!-- <div class="toolbar">
-    <button onclick="execCmd('bold')"><i class="fa fa-bold"></i></button>
-    <button onclick="execCmd('italic')"><i class="fa fa-italic"></i></button>
-    <button onclick="execCmd('underline')"><i class="fa fa-underline"></i></button>
-    <button onclick="execCmd('justifyLeft')"><i class="fa fa-align-left"></i></button>
-    <button onclick="execCmd('justifyCenter')"><i class="fa fa-align-center"></i></button>
-    <button onclick="execCmd('justifyRight')"><i class="fa fa-align-right"></i></button>
-    <button onclick="execCmd('justifyFull')"><i class="fa fa-align-justify"></i></button>
-    <button onclick="execCmd('insertUnorderedList')"><i class="fa fa-list-ul"></i></button>
-    <button onclick="execCmd('insertOrderedList')"><i class="fa fa-list-ol"></i></button>
-    <button onclick="execCmd('createLink', prompt('Enter URL:', 'http://'))"><i class="fa fa-link"></i></button>
-    <button onclick="execCmd('unlink')"><i class="fa fa-unlink"></i></button>
-  </div>
-  <div class="editor" contenteditable="true"></div>
-  <script>
-    function execCmd(command, value = null) {
-      document.execCommand(command, false, value);
-    }
-  </script> -->
 
   <script src="./script/checkJWT.js"></script>
   <script>
@@ -197,6 +181,11 @@
         console.error('Error:', error);
         document.getElementById('message').textContent = 'Verbindung zum Server fehlgeschlagen.';
       }
+    });
+
+    document.getElementById('delete-jwt').addEventListener('click', () => {
+      document.cookie = 'jwt=; max-age=0; path=/';
+      window.location.href = '/';
     });
   </script>
 </body>
