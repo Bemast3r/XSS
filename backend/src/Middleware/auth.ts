@@ -17,6 +17,7 @@ declare global {
              */
             userId?: string;
             role: "u" | "a" ;
+            name?: string
         }
     }
 }
@@ -35,6 +36,7 @@ export async function requiresAuthentication(req: Request, res: Response, next: 
             const result = verifyJWT(jwtString);
             req.userId = result.userId;
             req.role = result.role;
+            req.name = result.name;
             next();
         } catch (error) {
             res.status(401); // Unauthorized

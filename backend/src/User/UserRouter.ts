@@ -1,29 +1,57 @@
 import { requiresAuthentication } from "../Middleware/auth";
 import { UserResource } from "../util/Resources";
 import express from "express";
+import multer from "multer";
 import { body, matchedData, param, validationResult } from "express-validator";
 import { getUsersFromDB, getUser, createUser, updateUser, deleteUser } from "./UserService";
+import path from "path";
 
 export const userRouter = express.Router();
 
-/**
- * Holt alle User
- */
-// userRouter.get("/search", requiresAuthentication,
-//     async (req, res, next) => {
-//         const errors = validationResult(req);
-//         if (!errors.isEmpty()) {
-//             return res.status(400).json({ errors: errors.array() });
-//         }
-//         try {
-//             const users = await getUsersFromDB();
-//             return res.send(users); // 200 by default
-//         } catch (err) {
-//             res.status(400);
-//             next(err);
-//         }
-//     }
-// );
+const storage = multer.diskStorage({
+    destination(req, file, callback) {
+        // Bei einem Positiv Fall keine Callbacks machen, da die immer ausgeführt werden.
+        callback(null, "./uploads/")
+    },
+    filename: function (req, file, callback) {
+        callback(null, req.name + "_" + file.originalname.split(".")[0] + "_" + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, callback) {
+        const filetypes = /pdf|svg/;
+        const mimetype = filetypes.test(file.mimetype);
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+        if (mimetype && extname) {
+            return (callback(null,true))
+        } else {
+            callback(new Error("Bitte lade nur PDF oder SVG hoch."))
+        }
+    }
+});
+
+// https://stackoverflow.com/questions/31530200/node-multer-unexpected-field
+userRouter.post("/upload", requiresAuthentication, upload.single('uploadedFile'), (req, res) => {
+    const errors = validationResult(req);
+    // console.log(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+  
+    res.status(200).json({ message: "File uploaded successfully", file: req.file });
+  });
+
+// Uploade Files in die Kommentarsektion, so dass XSS Code ausgeführt wird.
+//   userRouter.get("uploaded_files", requiresAuthentication)
+
+
 userRouter.get("/search", requiresAuthentication, async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -38,6 +66,9 @@ userRouter.get("/search", requiresAuthentication, async (req, res, next) => {
         next(err);
     }
 });
+
+
+
 
 /**
  * Suche einen User
@@ -58,29 +89,6 @@ userRouter.get("/finde/:id", requiresAuthentication,
         }
     }
 );
-
-// userRouter.get("/admin/alle", requiresAuthentication,
-//     async (req, res, next) => {
-//         const errors = validationResult(req);
-//         if (!errors.isEmpty()) {
-//             return res.status(400).json({ errors: errors.array() });
-//         }
-//         try {
-//             if (req.role !== "a") {
-//                 return res.sendStatus(403)
-//             }
-//             const user = await getAlleUser()
-//             return res.send(user)
-//         } catch (error) {
-//             res.status(400);
-//             next(error);
-//         }
-//     }
-// );
-
-
-
-
 
 /**
  * Erstellt einen Benutzer 
@@ -121,7 +129,7 @@ userRouter.put("/aendern", requiresAuthentication,
             return res.status(400).json({ errors: errors.array() });
         }
         try {
-            const userRes = req.body as UserResource; 
+            const userRes = req.body as UserResource;
             const user = await updateUser(userRes);
             return res.send(user);
         } catch (error) {
@@ -143,13 +151,13 @@ userRouter.delete("/delete/:id", requiresAuthentication,
         }
         try {
             const user = matchedData(req) as UserResource
-            if(user.id){
+            if (user.id) {
                 const deleted = await deleteUser(user.id);
                 return res.send(deleted); // 200 by default
-            }else{
+            } else {
                 return res.status(404)
             }
-        
+
         } catch (err) {
             res.status(400);
             next(err);
