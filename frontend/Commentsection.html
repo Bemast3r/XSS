@@ -34,25 +34,22 @@
     </nav>
 
     <div class="container mt-5">
-        <h1>Kommentar-Bereich</h1>
-        <form id="comment-form">
-            <h2>Was halten Sie von der Seite?</h2>
-            <div class="mb-3">
-                <label for="comment" class="form-label">Schreiben Sie einen Kommentar</label>
-                <textarea class="form-control" id="comment" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Kommentar absenden</button>
-        </form>
-
-        <h2 class="mt-5">Kommentare</h2>
-        <ul id="comment-list" class="list-group">
-        </ul>
-
-
+        <h1>Community Uploads</h1>
+        <div>
+            <h2 class="mt-5">PDF und SVG Dateien</h2>
+            <!-- Hier werden die Dateien angezeigt -->
+            <br></br>
+            <h3>Alle PDFs</h3>
+            <div class="list-group" id="pdf-list"></div>
+            <br></br>
+            <h3>Alle SVGs</h3>
+            <div class="list-group" id="svg-list"></div>
+        </div>
+        <br></br>
         <form id="upload-form" enctype="multipart/form-data">
             <Alert id="upload-alert"></Alert>
             <div class="mb-3">
-                <label for="file-upload" class="form-label">PDF oder SVG hochladen:</label>
+                <label for="file-upload" class="form-label" ><strong>PDF oder SVG hochladen:</strong></label>
                 <input type="file" class="form-control" id="file-upload" name="uploadedFile" accept=".pdf, .svg">
             </div>
             <button type="submit" id="upload-button" class="btn btn-primary">Hochladen</button>
@@ -61,6 +58,46 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadFiles()
+        });
+        function loadFiles() {
+            fetch('/api/user/uploaded_files', {
+                headers: {
+                    'Authorization': 'Bearer ' + document.cookie.split('jwt=')[1]
+                }
+            })
+                .then(response => response.json())
+                .then(files => {
+                    const svgList = document.getElementById('svg-list');
+                    const pdfList = document.getElementById('pdf-list');
+                    svgList.innerHTML = '';
+                    pdfList.innerHTML = '';
+                    files.forEach(file => {
+                        if (file.endsWith('.svg')) {
+                            const svgItem = document.createElement('div');
+                            svgItem.className = 'list-group-item list-group-item-action';
+                            // https://www.urbanstudio.de/blog/svg-einbinden-in-webseiten/#:~:text=SVG%20mit%20IMG%20(Image%2DTag,JavaScript%20oder%20CSS%20manipuliert%20werden.
+                            svgItem.innerHTML = `<object type="image/svg+xml" data="/uploads/${file}" width="300" height="300"></object>`;
+                            svgItem.setAttribute('download', file)
+                            svgList.appendChild(svgItem);
+                        } else {
+                            const pdfItem = document.createElement('a');
+                            pdfItem.href = '/uploads/' + file;
+                            pdfItem.className = 'list-group-item list-group-item-action';
+                            pdfItem.textContent = file;
+                            pdfItem.setAttribute('download', file);
+                            pdfList.appendChild(pdfItem);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error + response.status());
+                });
+        }
+
+
+
         document.getElementById('comment-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const commentText = document.getElementById('comment').value;
@@ -76,7 +113,6 @@
 
         document.getElementById('upload-form').addEventListener('submit', function (event) {
             event.preventDefault();
-
             const form = document.getElementById('upload-form');
             const formData = new FormData(form);
             const parseJwt = (token) => {
@@ -100,11 +136,10 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
+                    loadFiles()
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    // Hier können Sie eine Fehlermeldung anzeigen, falls etwas schief geht
-                    alert('Beim Hochladen der Datei ist ein Fehler aufgetreten.');
                 });
         });
 

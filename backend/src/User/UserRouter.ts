@@ -5,6 +5,10 @@ import multer from "multer";
 import { body, matchedData, param, validationResult } from "express-validator";
 import { getUsersFromDB, getUser, createUser, updateUser, deleteUser } from "./UserService";
 import path from "path";
+import fs from 'fs';
+
+
+
 
 export const userRouter = express.Router();
 
@@ -26,7 +30,7 @@ const upload = multer({
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
         if (mimetype && extname) {
-            return (callback(null,true))
+            return (callback(null, true))
         } else {
             callback(new Error("Bitte lade nur PDF oder SVG hoch."))
         }
@@ -38,18 +42,28 @@ userRouter.post("/upload", requiresAuthentication, upload.single('uploadedFile')
     const errors = validationResult(req);
     // console.log(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
-  
+
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+        return res.status(400).json({ error: "No file uploaded" });
     }
-  
+
     res.status(200).json({ message: "File uploaded successfully", file: req.file });
-  });
+});
 
 // Uploade Files in die Kommentarsektion, so dass XSS Code ausgeführt wird.
-//   userRouter.get("uploaded_files", requiresAuthentication)
+userRouter.get('/uploaded_files', requiresAuthentication, (req, res) => {
+    const directoryPath = path.join(__dirname, '../../uploads');
+    fs.readdir(directoryPath, (err, files) => {
+
+        if (err) {
+            return res.status(404).json({ error: "Keine Files sind vorhanden" });
+        }
+
+        res.status(200).json(files);
+    });
+});
 
 
 userRouter.get("/search", requiresAuthentication, async (req, res, next) => {
