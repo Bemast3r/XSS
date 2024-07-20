@@ -3,6 +3,8 @@ import { IUser, User } from "../Model/UserModel";
 import { Types } from "mongoose"
 
 
+
+
 async function mapUserToResource(user: IUser & { _id: Types.ObjectId; }): Promise<UserResource> {
     const userResource: UserResource = {
         id: user._id.toString(),
@@ -23,15 +25,6 @@ export async function getUser(userid: string) {
     return mapped
 }
 
-
-// export async function getUsersFromDB(): Promise<UserResource[]> {
-//     const users = await User.find().sort({ name: 1 });
-//     if (!users) {
-//         throw new Error(`Keine User gefunden.`);
-//     }
-//     const userResources = await Promise.all(users.map(user => mapUserToResource(user)));
-//     return userResources;
-// }
 export async function getUsersFromDB(query:any) {
     // Hier sollten Sie sicherstellen, dass Ihre Suchlogik mit einer Datenbankabfrage übereinstimmt
     const users = await User.find({ name: new RegExp(query, 'i') }).sort({ name: 1 });
@@ -41,6 +34,8 @@ export async function getUsersFromDB(query:any) {
     const userResources = await Promise.all(users.map(user => mapUserToResource(user)));
     return userResources;
 }
+
+
 
 export async function createUser(userResource: UserResource): Promise<UserResource> {
     const user = await User.create({

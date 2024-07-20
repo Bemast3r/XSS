@@ -26,8 +26,11 @@
                     <a class="nav-link" href="Profile.html">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Commentsection.html">Kommentare</a>
+                    <a class="nav-link" href="Community.html">Community</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="Search.html">Search</a>
+                  </li>
             </ul>
             <button type="button" class="btn btn-danger" id="delete-jwt">Abmelden</button>
         </div>
@@ -96,21 +99,6 @@
                 });
         }
 
-
-
-        document.getElementById('comment-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const commentText = document.getElementById('comment').value;
-
-            const commentList = document.getElementById('comment-list');
-            const newComment = document.createElement('li');
-            newComment.className = 'list-group-item';
-            newComment.innerHTML = commentText;
-            commentList.appendChild(newComment);
-
-            document.getElementById('comment').value = '';
-        });
-
         document.getElementById('upload-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const form = document.getElementById('upload-form');
@@ -135,7 +123,6 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Success:', data);
                     loadFiles()
                 })
                 .catch((error) => {

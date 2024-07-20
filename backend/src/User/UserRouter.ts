@@ -6,6 +6,7 @@ import { body, matchedData, param, validationResult } from "express-validator";
 import { getUsersFromDB, getUser, createUser, updateUser, deleteUser } from "./UserService";
 import path from "path";
 import fs from 'fs';
+import * as fspromise from 'fs/promises';
 
 
 
@@ -53,16 +54,18 @@ userRouter.post("/upload", requiresAuthentication, upload.single('uploadedFile')
 });
 
 // Uploade Files in die Kommentarsektion, so dass XSS Code ausgeführt wird.
-userRouter.get('/uploaded_files', requiresAuthentication, (req, res) => {
-    const directoryPath = path.join(__dirname, '../../uploads');
-    fs.readdir(directoryPath, (err, files) => {
+userRouter.get('/uploaded_files', requiresAuthentication, async (req, res) => {
 
-        if (err) {
-            return res.status(404).json({ error: "Keine Files sind vorhanden" });
-        }
+    const query = req.query.query?.toString() || ''; // Abfrageparameter auslesen
+    const directoryPath = path.join(__dirname, '../../uploads'); // Datein aus dem Ordner entnehmen
 
-        res.status(200).json(files);
-    });
+    try {
+        const files = await fspromise.readdir(directoryPath);
+
+        return res.status(200).json(files);
+    } catch (err) {
+        return res.status(404).json({ error: "Keine Files sind vorhanden" });
+    }
 });
 
 
@@ -78,6 +81,32 @@ userRouter.get("/search", requiresAuthentication, async (req, res, next) => {
     } catch (err) {
         res.status(400);
         next(err);
+    }
+});
+
+
+userRouter.get("/search_doc", requiresAuthentication, async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const query = req.query.query?.toString() || ''; // Abfrageparameter auslesen
+    const directoryPath = path.join(__dirname, '../../uploads'); // Datein aus dem Ordner entnehmen
+
+    try {
+        console.log(query)
+        const files = await fspromise.readdir(directoryPath);
+        const found = files.filter(file => file.startsWith(query)); // Dateien filtern, die mit dem Query beginnen
+
+        if (found.length === 0) {
+           
+            return res.status(200).json({ message: `Die Suche nach ${query} ergab keine Ergebnisse.` });
+        }
+
+        return res.status(200).json(found);
+    } catch (err) {
+        return res.status(404).json({ error: "Keine Files sind vorhanden" });
     }
 });
 
