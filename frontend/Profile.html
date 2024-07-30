@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <link rel="stylesheet" href="Styling/navbar.css">
   <link rel="stylesheet" href="Styling/profile.css">
   <link rel="stylesheet" href="Styling/echostyle.css">
@@ -53,6 +54,7 @@
         <p id="role"></p>
         <p id="created"></p>
         <p id="bio"></p>
+
       </div>
     </div>
     <button id="save-button" class="btn btn-primary">Speichern</button>
@@ -60,43 +62,55 @@
 
   <script src="./script/checkJWT.js"></script>
   <script>
-    // decode
+    // Funktion zum Parsen des JWT und Dekodieren des Payloads
     const parseJwt = (token) => {
       try {
+        // Das JWT ist Base64-codiert, daher wird der mittlere Teil (Payload) dekodiert und in ein JSON-Objekt umgewandelt
         return JSON.parse(atob(token.split('.')[1]));
       } catch (e) {
+        // Falls ein Fehler auftritt (z.B. ungültiges JWT), wird null zurückgegeben
         return null;
       }
     };
-    // User daten am Anfang
+
+    // Event-Listener, der beim Laden der Seite ausgeführt wird
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         let id;
+        // Extrahieren der ID aus den URL-Parametern (Falls über Suche das Profil besucht wird)
         const params = new URLSearchParams(window.location.search);
-        id = params.get('id')
-        const cookie = document.cookie
-        const jwt = cookie.substring("jwt=".length)
+        id = params.get('id');
+        // Abrufen des JWT aus den Cookies
+        const cookie = document.cookie;
+        const jwt = cookie.substring("jwt=".length);
+        // Standardmäßig wird das Einstellungen-Icon ausgeblendet
         document.getElementById('settings-icon').style.display = 'none';
+
+        // Falls keine ID in den URL-Parametern gefunden wurde, wird das eigene Profil angezeigt
         if (!id) {
-          // Eigenes Profil
-          const decode = parseJwt(jwt)
-          id = decode.sub
+          const decode = parseJwt(jwt);
+          id = decode.sub;
+          // Das Einstellungen-Icon wird nur für das eigene Profil angezeigt
           document.getElementById('settings-icon').style.display = 'block';
         }
 
-
+        // Abrufen der Benutzerdaten vom Server
         const response = await fetch(`http://localhost:3000/api/user/finde/${id}`, {
           method: 'GET',
           headers: {
-            "Authorization": `Bearer ${jwt}`,
+            "Authorization": `Bearer ${jwt}`, // JWT wird zur Authentifizierung gesendet
             "Content-Type": "application/json"
           },
         });
 
+        // Falls die Antwort nicht erfolgreich ist, wird ein Fehler ausgelöst
         if (!response.ok) {
           throw new Error(`${response.statusText}`);
         }
+
+        // Konvertieren der Serverantwort in ein JSON-Objekt
         const result = await response.json();
+        // Anzeige der Benutzerdaten auf der Seite
         document.getElementById('id').textContent = `id: ${result.id}`;
         document.getElementById('name').textContent = `Name: ${result.name}`;
         document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
@@ -104,93 +118,132 @@
         document.getElementById('bio').innerHTML = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
 
       } catch (error) {
+        // Falls ein Fehler auftritt, wird eine Fehlermeldung angezeigt
         console.error('Error:', error);
         document.getElementById('message').textContent = 'Verbindung zum Server fehlgeschlagen.';
       }
     });
 
-    // Umwandlung p zu Input
+    // Event-Listener für das Klick-Ereignis auf das Einstellungen-Icon
     document.getElementById('settings-icon').addEventListener('click', () => {
       const userDetails = document.querySelector('.user-details');
       const paragraphs = userDetails.querySelectorAll('p');
       paragraphs.forEach(p => {
+        // Bestimmte Felder (id, created, role) werden nicht in Eingabefelder umgewandelt
         if (p.id === "id" || p.id === "created" || p.id === "role") {
           return;
         }
+        // Erstellen eines Eingabefeldes für jedes andere Feld
         const input = document.createElement('input');
         input.type = 'text';
+        // Der aktuelle Text des <p> Elements wird als Wert des Eingabefeldes gesetzt
         input.value = p.textContent.split(': ')[1];
-        input.innerHTML = p.innerHTML
+        input.innerHTML = p.innerHTML;
         input.className = 'form-control';
-        input.id = p.id
+        input.id = p.id;
+        // Das <p> Element wird durch das Eingabefeld ersetzt
         userDetails.replaceChild(input, p);
       });
-      // Zum erscheinen des Buttons 
+      // Der Speichern-Button wird angezeigt
       document.getElementById('save-button').style.display = 'block';
     });
 
+    // Event-Listener für das Klick-Ereignis auf den Speichern-Button
     document.getElementById('save-button').addEventListener('click', async () => {
       const userDetails = document.querySelector('.user-details');
       const inputs = userDetails.querySelectorAll('input');
       const data = {};
 
+      // Die Daten aus den Eingabefeldern werden gesammelt
       inputs.forEach(input => {
-        const id = input.id
-        const value = input.value
+        const id = input.id;
+        const value = input.value;
         data[id] = value;
       });
-      data["id"] = document.getElementById("id").innerText.substring("id: ".length)
+      // Die Benutzer-ID wird ebenfalls in die Daten eingefügt
+      data["id"] = document.getElementById("id").innerText.substring("id: ".length);
       try {
         const cookie = document.cookie;
         const jwt = cookie.substring("jwt=".length);
 
+        // Senden der aktualisierten Benutzerdaten an den Server
         const response = await fetch(`http://localhost:3000/api/user/aendern`, {
           method: 'PUT',
           headers: {
-            "Authorization": `Bearer ${jwt}`,
+            "Authorization": `Bearer ${jwt}`, // JWT wird zur Authentifizierung gesendet
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data) // Die Daten werden als JSON im Body der Anfrage gesendet
         });
 
+        // Falls die Antwort nicht erfolgreich ist, wird ein Fehler ausgelöst
         if (!response.ok) {
           throw new Error(`${response.statusText}`);
         }
 
+        // Konvertieren der Serverantwort in ein JSON-Objekt
         const result = await response.json();
 
+        // Die aktualisierten Benutzerdaten werden angezeigt
         document.getElementById('id').textContent = `id: ${result.id}`;
         document.getElementById('name').textContent = `Name: ${result.name}`;
         document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
         document.getElementById('created').textContent = `Erstellt am: ${new Date(result.createdAt).toUTCString()}`;
         document.getElementById('bio').innerHTML = result.bio ? result.bio : "Keine Bio.";
 
-        // Convert inputs back to paragraphs
+        // Die Eingabefelder werden wieder in <p> Elemente umgewandelt
         inputs.forEach(input => {
           const p = document.createElement('p');
           p.textContent = input.value;
-          p.id = input.id
+          p.id = input.id;
           if (input.id === "name") {
-            p.textContent = "Name: " + input.value
+            p.textContent = "Name: " + input.value;
           } else {
-            p.textContent = "Bio: " + input.value
+            p.textContent = "Bio: " + input.value;
           }
           userDetails.replaceChild(p, input);
         });
 
+        // Der Speichern-Button wird ausgeblendet
         document.getElementById('save-button').style.display = 'none';
 
       } catch (error) {
+        // Falls ein Fehler auftritt, wird eine Fehlermeldung angezeigt
         console.error('Error:', error);
         document.getElementById('message').textContent = 'Verbindung zum Server fehlgeschlagen.';
       }
     });
 
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const response = await fetch(`http://localhost:3000/api/user/finde/${id}`, {
+        method: 'GET',
+        headers: {
+          // JWT wird zur Authentifizierung gesendet
+          "Authorization": `Bearer ${jwt}`, 
+          "Content-Type": "application/json"
+        },
+      });
+      // Konvertieren der Serverantwort in ein JSON-Objekt
+      const result = await response.json();
+      // Anzeige der Benutzerdaten auf der Seite
+      document.getElementById('id').textContent = `id: ${result.id}`;
+      document.getElementById('name').textContent = `Name: ${result.name}`;
+      document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
+      document.getElementById('created').textContent = `Erstellt am: ${new Date(result.createdAt).toUTCString()}`;
+      document.getElementById('bio').innerHTML = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
+    })
+
+
+    // Event-Listener für das Klick-Ereignis auf den Abmelden-Button
     document.getElementById('delete-jwt').addEventListener('click', () => {
+      // Das JWT-Cookie wird gelöscht
       document.cookie = 'jwt=; max-age=0; path=/';
+      // Umleitung zur Startseite
       window.location.href = '/';
     });
   </script>
+
 </body>
 
 </html>

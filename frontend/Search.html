@@ -2,7 +2,6 @@
 <html lang="de">
 
 <head>
-    <!-- XSS FUNKTIONIERT HIER HAT WAS MIT DER QUERY ZU TUN. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XSS Test Seite</title>
@@ -40,17 +39,20 @@
     <br><br>
     <div class="container mt-5">
         <h1>Suchen wir Dokumente 📂</h1>
+        <!-- Benutzereingabe -->
         <div id="userInput" class="mb-3">
+            <!-- Sucheingabe -->
             <div class="input-group mb-3">
                 <h3>Suchen Sie PDFs🔍</h3>
                 <input type="search" class="form-control" placeholder="Search for User...🔍" aria-label="Search"
                     name="query" id="search">
                 <button class="btn btn-primary" id="search-submit" type="button">Search</button>
             </div>
+            <!-- Suchergebnisse -->
             <div id="search-results">
-                <div id="error-msg"></div>
-                <div id="svg-list" class="list-group"></div>
-                <div id="pdf-list" class="list-group"></div>
+                <div id="error-msg"></div> <!-- Fehlermeldungen -->
+                <div id="svg-list" class="list-group"></div> <!-- SVG-Dateien -->
+                <div id="pdf-list" class="list-group"></div> <!-- PDF-Dateien -->
             </div>
         </div>
     </div>
@@ -71,7 +73,6 @@
                 });
                 const files = await response.json();
                 if (files.message !== null && files.message !== undefined) {
-                    console.log(files.message);
                     document.getElementById('error-msg').innerHTML = `<b>${files.message}</b>`;
                     return;
                 } else {
@@ -106,23 +107,23 @@
             const query = document.getElementById('search').value;
             if (query.length > 0) {
                 // Aktualisiere die URL mit dem query-Parameter
-                // const newUrl = new URL(window.location);
-                // newUrl.searchParams.set('query', query);
-                // window.history.pushState({}, '', newUrl);
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set('query', query);
+                window.history.pushState({}, '', newUrl);
 
                 // Führe die Suchanfrage aus
                 searchDocuments(query);
             }
         });
 
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     const params = new URLSearchParams(window.location.search);
-        //     const query = params.get('query');
-        //     if (query) {
-        //         document.getElementById('search').value = query;
-        //         searchDocuments(query);
-        //     }
-        // });
+        document.addEventListener('DOMContentLoaded', function () {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('query');
+            if (query) {
+                document.getElementById('search').value = query;
+                searchDocuments(query);
+            }
+        });
     </script>
 </body>
 

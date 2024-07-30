@@ -12,7 +12,7 @@ window.onload = () => {
             window.location.href = "/";
             return null;
         }
-        location.href = '/Echoinput.html';
+        location.href = isOnEchoPage;
     }
 }
 
