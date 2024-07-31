@@ -15,45 +15,49 @@ export const userRouter = express.Router();
 
 const storage = multer.diskStorage({
     destination(req, file, callback) {
-        // Bei einem Positiv Fall keine Callbacks machen, da die immer ausgeführt werden.
-        callback(null, "./uploads/")
+        // Speichert Dateien im Verzeichnis "./uploads/"
+        callback(null, "./uploads/");
     },
-    filename: function (req, file, callback) {
-        callback(null, req.name + "_" + file.originalname.split(".")[0] + "_" + path.extname(file.originalname))
+    filename(req, file, callback) {
+        // Dateinamen: User + Originalname + Dateiendung
+        callback(null, req.name + "_" + file.originalname.split(".")[0] + "_" + path.extname(file.originalname));
     }
 });
 
 const upload = multer({
     storage: storage,
-    fileFilter: function (req, file, callback) {
+    fileFilter(req, file, callback) {
+        // Akzeptiert nur Dateien mit den Endungen PDF und SVG
         const filetypes = /pdf|svg/;
         const mimetype = filetypes.test(file.mimetype);
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
         if (mimetype && extname) {
-            return (callback(null, true))
+            return callback(null, true);
         } else {
-            callback(new Error("Bitte lade nur PDF oder SVG hoch."))
+            callback(new Error("Bitte lade nur PDF oder SVG hoch."));
         }
     }
 });
 
 // https://stackoverflow.com/questions/31530200/node-multer-unexpected-field
-userRouter.post("/upload", requiresAuthentication, upload.single('uploadedFile'), (req, res) => {
-    const errors = validationResult(req);
-    // console.log(req)
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+userRouter.post("/upload", requiresAuthentication,
+    upload.single('uploadedFile'),
+    (req, res) => {
+        const errors = validationResult(req);
 
-    if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-    }
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
-    res.status(200).json({ message: "File uploaded successfully", file: req.file });
-});
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
 
-// Uploade Files in die Kommentarsektion, so dass XSS Code ausgeführt wird.
+        res.status(200).json({ message: "File uploaded successfully", file: req.file });
+    });
+
+// Bereitstellen der Daten
 userRouter.get('/uploaded_files', requiresAuthentication, async (req, res) => {
 
     const query = req.query.query?.toString() || ''; // Abfrageparameter auslesen
@@ -75,7 +79,7 @@ userRouter.get("/search", requiresAuthentication, async (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
     // Abfrageparameter auslesen
-    const query = req.query.query || ''; 
+    const query = req.query.query || '';
     try {
         const users = await getUsersFromDB(query);
         return res.send(users); // 200 by default
@@ -91,15 +95,15 @@ userRouter.get("/search_doc", requiresAuthentication, async (req, res, next) => 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-// Abfrageparameter auslesen
-    const query = req.query.query?.toString() || ''; 
+    // Abfrageparameter auslesen
+    const query = req.query.query?.toString() || '';
     // Datein aus dem Ordner entnehmen
-    const directoryPath = path.join(__dirname, '../../uploads'); 
+    const directoryPath = path.join(__dirname, '../../uploads');
 
     try {
         const files = await fspromise.readdir(directoryPath);
         // Dateien filtern, die mit dem Query beginnen
-        const found = files.filter(file => file.startsWith(query)); 
+        const found = files.filter(file => file.startsWith(query));
         if (found.length === 0) {
             return res.status(200).json({ message: `Die Suche nach ${query} ergab keine Ergebnisse.` });
         }

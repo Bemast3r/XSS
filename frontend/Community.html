@@ -30,7 +30,7 @@
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="Search.html">Search</a>
-                  </li>
+                </li>
             </ul>
             <button type="button" class="btn btn-danger" id="delete-jwt">Abmelden</button>
         </div>
@@ -52,7 +52,7 @@
         <form id="upload-form" enctype="multipart/form-data">
             <Alert id="upload-alert"></Alert>
             <div class="mb-3">
-                <label for="file-upload" class="form-label" ><strong>PDF oder SVG hochladen:</strong></label>
+                <label for="file-upload" class="form-label"><strong>PDF oder SVG hochladen:</strong></label>
                 <input type="file" class="form-control" id="file-upload" name="uploadedFile" accept=".pdf, .svg">
             </div>
             <button type="submit" id="upload-button" class="btn btn-primary">Hochladen</button>
@@ -80,7 +80,6 @@
                         if (file.endsWith('.svg')) {
                             const svgItem = document.createElement('div');
                             svgItem.className = 'list-group-item list-group-item-action';
-                            // https://www.urbanstudio.de/blog/svg-einbinden-in-webseiten/#:~:text=SVG%20mit%20IMG%20(Image%2DTag,JavaScript%20oder%20CSS%20manipuliert%20werden.
                             svgItem.innerHTML = `<object type="image/svg+xml" data="/uploads/${file}" width="300" height="300"></object>`;
                             svgItem.setAttribute('download', file)
                             svgList.appendChild(svgItem);
@@ -99,20 +98,20 @@
                 });
         }
 
+        function jwtDecode(jwt) {
+            try {
+                return JSON.parse(atob(jwt.split('.')[1]));
+            } catch (e) {
+                return null;
+            }
+        }
+
         document.getElementById('upload-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const form = document.getElementById('upload-form');
             const formData = new FormData(form);
-            const parseJwt = (token) => {
-                try {
-                    return JSON.parse(atob(token.split('.')[1]));
-                } catch (e) {
-                    return null;
-                }
-            };
-
             const cookie = document.cookie
-            const jwt = cookie.substring("jwt=".length)
+            let jwt = cookie.substring("jwt=".length)
 
             fetch('/api/user/upload', {
                 method: 'POST',
