@@ -1,3 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect width="300" height="300" style="fill:red;" />
   <image xlink:href="x" onerror="alert(1)" />
 </svg>
