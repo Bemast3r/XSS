@@ -62,7 +62,9 @@
     </form>
 
   </div>
+
   <script src="./script/checkJWT.js"></script>
+  <script src="./script/escape-html.js"></script>
 
   <script>
 
@@ -92,8 +94,9 @@
     // Parameter aus dem Link filtern.
     const params = new URLSearchParams(window.location.search);
     // Entnehme den Parameter mit den Namen input 
-    const userInput = params.get('input');
+    const userInput = escapeHtml(params.get('input'));
     // Ist der Paramater vorhanden, so füge den Text in user-output
+    console.log(userInput)
     if (userInput) {
       document.getElementById('user-output').innerHTML = userInput;
       // ansonsten gib "kein Input" zurück
