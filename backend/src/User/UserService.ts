@@ -1,8 +1,7 @@
 import { UserResource } from "../util/Resources";
-import { IUser, User } from "../Model/UserModel";
+import { IUser, User } from "./UserModel";
 import { Types } from "mongoose"
-
-
+import escapeHtml from 'escape-html';
 
 
 async function mapUserToResource(user: IUser & { _id: Types.ObjectId; }): Promise<UserResource> {
@@ -63,7 +62,8 @@ export async function updateUser(userResource: UserResource): Promise<UserResour
     }
 
     if (userResource.name) user.name = userResource.name;
-    if (userResource.bio) user.bio = userResource.bio;
+    // Hinzufügen von EscapeHtml
+    if (userResource.bio) user.bio = escapeHtml(userResource.bio);
     if (userResource.password) user.password = userResource.password;
     if (typeof userResource.admin === 'boolean') user.admin = userResource.admin;
     const savedUser = await user.save();

@@ -5,8 +5,8 @@ import multer from "multer";
 import { body, matchedData, param, validationResult } from "express-validator";
 import { getUsersFromDB, getUser, createUser, updateUser, deleteUser } from "./UserService";
 import path from "path";
-import fs from 'fs';
 import * as fspromise from 'fs/promises';
+import escapeHTML from "escape-html";
 
 
 
@@ -59,7 +59,7 @@ userRouter.post("/upload", requiresAuthentication,
 
 // Bereitstellen der Daten
 userRouter.get('/uploaded_files', requiresAuthentication, async (req, res) => {
-
+    
     const query = req.query.query?.toString() || ''; // Abfrageparameter auslesen
     const directoryPath = path.join(__dirname, '../../uploads'); // Datein aus dem Ordner entnehmen
 
@@ -96,7 +96,7 @@ userRouter.get("/search_doc", requiresAuthentication, async (req, res, next) => 
         return res.status(400).json({ errors: errors.array() });
     }
     // Abfrageparameter auslesen
-    const query = req.query.query?.toString() || '';
+    const query = escapeHTML(req.query.query?.toString()) || '';
     // Datein aus dem Ordner entnehmen
     const directoryPath = path.join(__dirname, '../../uploads');
 

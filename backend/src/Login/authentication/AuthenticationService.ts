@@ -1,4 +1,4 @@
-import { User } from "../../Model/UserModel";
+import { User } from "../../User/UserModel";
 
 
 export async function login(name: string, password: string): Promise<{ success: boolean, id?: string, name?: string, role?: "u" | "a"  }> {
