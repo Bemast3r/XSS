@@ -33,7 +33,7 @@
           <a class="nav-link" href="Profile.html">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Community.html">Community</a>
+          <a class="nav-link" href="Community.html?">Community</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="Search.html">Search</a>
@@ -61,6 +61,8 @@
   </div>
 
   <script src="./script/checkJWT.js"></script>
+  <script src="./script/escape-html.js"></script>
+
   <script>
     // Funktion zum Parsen des JWT und Dekodieren des Payloads
     const parseJwt = (token) => {
@@ -115,7 +117,7 @@
         document.getElementById('name').textContent = `Name: ${result.name}`;
         document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
         document.getElementById('created').textContent = `Erstellt am: ${new Date(result.createdAt).toUTCString()}`;
-        document.getElementById('bio').innerHTML = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
+        document.getElementById('bio').innerHTML = `Bio: ${result.bio ? escapeHtml(result.bio) : "Keine Bio."}`;
 
       } catch (error) {
         // Falls ein Fehler auftritt, wird eine Fehlermeldung angezeigt

@@ -26,7 +26,7 @@
                     <a class="nav-link" href="Profile.html">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Community.html">Community</a>
+                    <a class="nav-link" href="Community.html?">Community</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="Search.html">Search</a>
@@ -64,6 +64,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             loadFiles()
         });
+
         function loadFiles() {
             fetch('/api/user/uploaded_files', {
                 headers: {
@@ -82,7 +83,7 @@
                             svgItem.className = 'list-group-item list-group-item-action';
                             svgItem.innerHTML = `<object type="image/svg+xml" data="/uploads/${file}" width="300" height="300"></object>`;
                             svgItem.setAttribute('download', file)
-                    
+
                             svgList.appendChild(svgItem);
                         } else {
                             const pdfItem = document.createElement('a');
