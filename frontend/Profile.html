@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="Styling/navbar.css">
   <link rel="stylesheet" href="Styling/profile.css">
   <link rel="stylesheet" href="Styling/echostyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
 </head>
 
 <body>
@@ -115,7 +116,7 @@
         document.getElementById('name').textContent = `Name: ${result.name}`;
         document.getElementById('role').textContent = `Role: ${result.admin ? "Admin" : "User"}`;
         document.getElementById('created').textContent = `Erstellt am: ${new Date(result.createdAt).toUTCString()}`;
-        document.getElementById('bio').innerHTML = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
+        document.getElementById('bio').innerHTML = `Bio: ${result.bio ? DOMPurify.sanitize(result.bio) : "Keine Bio."}`;
 
       } catch (error) {
         // Falls ein Fehler auftritt, wird eine Fehlermeldung angezeigt

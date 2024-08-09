@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, '../../frontend')));
 app.use("/api/login/", loginRouter);
 app.use("/api/user", userRouter)
 app.use('/uploads/', express.static(path.join(__dirname, '/../uploads')));
-app.use('/uploads/', express.static(path.join(__dirname, '/../uploads')));
 
 app.listen(port, () => {
     console.log(`Website Server is running http://localhost:${port}`);
