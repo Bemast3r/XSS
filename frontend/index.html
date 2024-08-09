@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="Styling/style.css">
     <title>Login Seite</title>
 </head>
@@ -12,18 +11,15 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <Alert id="message"></Alert>
+        <div id="message"></div>
         <form id="loginForm">
             <input type="text" name="name" placeholder="Benutzername" required autocomplete="off">
             <input type="password" name="password" placeholder="Passwort" required>
             <input type="submit" value="Einloggen" id="login-btn">
         </form>
     </div>
-
     <script src="./script/checkJWT.js"></script>
-
     <script>
-        // https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
         const parseJwt = (token) => {
             try {
                 return JSON.parse(atob(token.split('.')[1]));
@@ -53,9 +49,9 @@
                 }
                 const result = await response.json();
                 const token = result.access_token;
-                const decoded = parseJwt(token)
+                const decoded = parseJwt(token);
                 document.getElementById('login-btn').value = 'Login erfolgreich!';
-                document.cookie = `jwt=${result.access_token}; role=${decoded.role}; iat:${decoded.iat}; path=/; max-age=86400; SameSite=Strict`;
+                document.cookie = `jwt=${result.access_token}; role=${decoded.role}; iat=${decoded.iat}; path=/; max-age=86400; SameSite=Strict`;
                 window.location.href = 'Echoinput.html';
 
             } catch (error) {

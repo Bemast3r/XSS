@@ -9,6 +9,6 @@
     "update": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../Attacker && npm install && echo Updated dependencies for all 3 directories"
   },
   "dependencies": {
-    "xss": "^1.0.15"
+    "dompurify": "^3.1.6"
   }
 }
