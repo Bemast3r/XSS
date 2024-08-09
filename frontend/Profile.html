@@ -99,7 +99,8 @@
         const response = await fetch(`http://localhost:3000/api/user/finde/${id}`, {
           method: 'GET',
           headers: {
-            "Authorization": `Bearer ${jwt}`, // JWT wird zur Authentifizierung gesendet
+            // JWT wird zur Authentifizierung gesendet
+            "Authorization": `Bearer ${jwt}`, 
             "Content-Type": "application/json"
           },
         });

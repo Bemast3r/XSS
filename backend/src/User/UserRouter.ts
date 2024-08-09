@@ -42,8 +42,7 @@ const upload = multer({
 
 // https://stackoverflow.com/questions/31530200/node-multer-unexpected-field
 userRouter.post("/upload", requiresAuthentication,
-    upload.single('uploadedFile'),
-    (req, res) => {
+    upload.single('uploadedFile'), (req, res) => {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
