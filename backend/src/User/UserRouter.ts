@@ -7,6 +7,7 @@ import { getUsersFromDB, getUser, createUser, updateUser, deleteUser } from "./U
 import path from "path";
 import fs from 'fs';
 import * as fspromise from 'fs/promises';
+import DOMPurify from "dompurify";
 
 
 
@@ -89,28 +90,29 @@ userRouter.get("/search", requiresAuthentication, async (req, res, next) => {
 });
 
 // Dokumentation Suche
-userRouter.get("/search_doc", requiresAuthentication, async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    // Abfrageparameter auslesen
-    const query = req.query.query?.toString() || '';
-    // Datein aus dem Ordner entnehmen
-    const directoryPath = path.join(__dirname, '../../uploads');
-
-    try {
-        const files = await fspromise.readdir(directoryPath);
-        // Dateien filtern, die mit dem Query beginnen
-        const found = files.filter(file => file.startsWith(query));
-        if (found.length === 0) {
-            return res.status(200).json({ message: `Die Suche nach ${query} ergab keine Ergebnisse.` });
+userRouter.get("/search_doc", requiresAuthentication,
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
-        return res.status(200).json(found);
-    } catch (err) {
-        return res.status(404).json({ error: "Keine Files sind vorhanden" });
-    }
-});
+        // Abfrageparameter auslesen
+        const query = req.query.query?.toString() || '';
+        // Datein aus dem Ordner entnehmen
+        const directoryPath = path.join(__dirname, '../../uploads');
+        try {
+            const files = await fspromise.readdir(directoryPath);
+            // Dateien filtern, die mit dem Query beginnen
+            const found = files.filter(file => file.startsWith(query));
+            if (found.length === 0) {
+                return res.status(200).json({ message: `Die Suche nach ${DOMPurify.sanitize(query)} ergab keine Ergebnisse.` });
+            }
+
+            return res.status(200).json(found);
+        } catch (err) {
+            return res.status(404).json({ error: "Keine Files sind vorhanden" });
+        }
+    });
 
 
 
