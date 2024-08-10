@@ -1,5 +1,5 @@
 import { UserResource } from "../util/Resources";
-import { IUser, User } from "../Model/UserModel";
+import { IUser, User } from "./UserModel";
 import { Types } from "mongoose"
 
 

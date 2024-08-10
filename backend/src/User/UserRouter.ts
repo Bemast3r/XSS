@@ -5,9 +5,7 @@ import multer from "multer";
 import { body, matchedData, param, validationResult } from "express-validator";
 import { getUsersFromDB, getUser, createUser, updateUser, deleteUser } from "./UserService";
 import path from "path";
-import fs from 'fs';
 import * as fspromise from 'fs/promises';
-import DOMPurify from "dompurify";
 
 
 
@@ -105,7 +103,7 @@ userRouter.get("/search_doc", requiresAuthentication,
             // Dateien filtern, die mit dem Query beginnen
             const found = files.filter(file => file.startsWith(query));
             if (found.length === 0) {
-                return res.status(200).json({ message: `Die Suche nach ${DOMPurify.sanitize(query)} ergab keine Ergebnisse.` });
+                return res.status(200).json({ message: `Die Suche nach ${query} ergab keine Ergebnisse.` });
             }
 
             return res.status(200).json(found);

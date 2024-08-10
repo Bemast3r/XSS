@@ -1,4 +1,4 @@
-import { User } from "../Model/UserModel";
+import { User } from "../User/UserModel";
 
 export async function prefillAdmin() {
     const admin = await User.findOne({ name: "Admin" }).exec();
