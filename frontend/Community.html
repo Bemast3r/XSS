@@ -132,7 +132,7 @@
             event.preventDefault();
             const form = document.getElementById('upload-form');
             const formData = new FormData(form);
-            DOMPurify.sanitize(formData)
+            alert(formData)
             const cookie = document.cookie
             let jwt = cookie.substring("jwt=".length)
 

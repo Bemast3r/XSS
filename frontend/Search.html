@@ -73,7 +73,8 @@
                     },
                 });
                 const files = await response.json();
-                if (files.message !== null && files.message !== undefined) {
+
+                if ( files.message !== null && files.message !== undefined) {
                     document.getElementById('error-msg').innerHTML = `<b>${files.message}</b>`;
                     return;
                 } else {
