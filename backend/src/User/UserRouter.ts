@@ -105,7 +105,7 @@ userRouter.get("/search_doc", requiresAuthentication, async (req, res, next) => 
         // Dateien filtern, die mit dem Query beginnen
         const found = files.filter(file => file.startsWith(query));
         if (found.length === 0) {
-            return res.status(200).json({ message: `Die Suche nach ${query} ergab keine Ergebnisse.` });
+            return res.status(404).json({ message: `Die Suche nach ${query} ergab keine Ergebnisse.` });
         }
         return res.status(200).json(found);
     } catch (err) {
