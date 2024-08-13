@@ -51,6 +51,7 @@ export async function createUser(userResource: UserResource): Promise<UserResour
     return mapped
 }
 
+// Service Layer: Escape-html wird verwendet um das Payload unschädlich zu machen
 export async function updateUser(userResource: UserResource): Promise<UserResource> {
     if (!userResource.id) {
         throw new Error("User ID missing, cannot update.");
