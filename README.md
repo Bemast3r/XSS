@@ -96,5 +96,5 @@ Diese Webanwendung bietet die Möglichkeit, zwischen verschiedenen Branches zu w
 Die Payloads sind ebenfalls in der Datei `xss_payload.txt` zu finden. Diese Datei befindet sich im Verzeichnis `Attacker/src/xss_payload.txt`.
 
 
-### Lizenz
+## Lizenz
 Dieses Projekt ist unter der MIT-Lizenz lizenziert.
