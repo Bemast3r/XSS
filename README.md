@@ -8,8 +8,7 @@ Diese Webanwendung wurde im Rahmen einer Bachelorarbeit entwickelt, um XSS-Schwa
 - [Installation](#installation)
 - [Nutzung](#nutzung)
 - [Struktur der Anwendung](#struktur-der-anwendung)
-- [Mögliche Attacken](#xss-schwachstellen-und-gegenmaßnahmen)
-- [Fazit](#fazit)
+- [Mögliche Attacken](#mögliche-attacken)
 - [Lizenz](#lizenz)
 
 ## Einleitung
@@ -54,10 +53,11 @@ Diese Webanwendung bietet die Möglichkeit, zwischen verschiedenen Branches zu w
 - html-escape Branch: In diesem Branch wird die Bibliothek escape-html verwendet, um Benutzereingaben zu entschärfen und somit XSS-Angriffe zu verhindern.
 - DOMPURIFY Branch: Dieser Branch verwendet die Bibliothek DOMPurify, um potenziell gefährliche HTML-Eingaben zu bereinigen und XSS-Angriffe zu verhindern.
 
-### Strucktur der Anwendung
-- Attacker : Beinhaltet den Hacker Server
-- backend: Ist der Backend Server der Webanwendung
-- frontend: Ist das Frontend und beinhaltet die HTML Seiten
+## Struktur der Anwendung
+
+- **Attacker**: Beinhaltet den Hacker-Server
+- **backend**: Ist der Backend-Server der Webanwendung
+- **frontend**: Ist das Frontend und beinhaltet die HTML-Seiten
 
 ### Mögliche Attacken
 
