@@ -62,6 +62,7 @@
 
   <script src="./script/checkJWT.js"></script>
   <script src="./script/escape-html.js"></script>
+  <script src="./script/logout.js"></script>
 
   <script>
     // Funktion zum Parsen des JWT und Dekodieren des Payloads
@@ -237,13 +238,6 @@
     })
 
 
-    // Event-Listener für das Klick-Ereignis auf den Abmelden-Button
-    document.getElementById('delete-jwt').addEventListener('click', () => {
-      // Das JWT-Cookie wird gelöscht
-      document.cookie = 'jwt=; max-age=0; path=/';
-      // Umleitung zur Startseite
-      window.location.href = '/';
-    });
   </script>
 
 </body>

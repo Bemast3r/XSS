@@ -65,7 +65,7 @@
 
   <script src="./script/checkJWT.js"></script>
   <script src="./script/escape-html.js"></script>
-
+  <script src="./script/logout.js"></script>
   <script>
 
     document.getElementById('search').addEventListener('input', function () {
@@ -96,7 +96,6 @@
     // Entnehme den Parameter mit den Namen input 
     const userInput = escapeHtml(params.get('input'));
     // Ist der Paramater vorhanden, so füge den Text in user-output
-    console.log(userInput)
     if (userInput) {
       document.getElementById('user-output').innerHTML = userInput;
       // ansonsten gib "kein Input" zurück
@@ -106,10 +105,7 @@
 
 
 
-    document.getElementById('delete-jwt').addEventListener('click', () => {
-      document.cookie = 'jwt=; max-age=0; path=/';
-      window.location.href = '/';
-    });
+
   </script>
 </body>
 

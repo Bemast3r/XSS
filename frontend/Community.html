@@ -60,6 +60,10 @@
 
     </div>
 
+    <script src="./script/checkJWT.js"></script>
+    <script src="./script/escape-html.js"></script>
+    <script src="./script/logout.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             loadFiles()
@@ -131,10 +135,6 @@
                 });
         });
 
-        document.getElementById('delete-jwt').addEventListener('click', () => {
-            document.cookie = 'jwt=; max-age=0; path=/';
-            window.location.href = '/';
-        });
     </script>
 </body>
 
