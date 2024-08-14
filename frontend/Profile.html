@@ -238,14 +238,6 @@
       document.getElementById('bio').innerHTML = `Bio: ${result.bio ? result.bio : "Keine Bio."}`;
     })
 
-
-    // Event-Listener für das Klick-Ereignis auf den Abmelden-Button
-    document.getElementById('delete-jwt').addEventListener('click', () => {
-      // Das JWT-Cookie wird gelöscht
-      document.cookie = 'jwt=; max-age=0; path=/';
-      // Umleitung zur Startseite
-      window.location.href = '/';
-    });
   </script>
 
 </body>
