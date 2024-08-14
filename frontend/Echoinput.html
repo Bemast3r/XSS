@@ -62,7 +62,9 @@
     </form>
 
   </div>
+  
   <script src="./script/checkJWT.js"></script>
+  <script src="./script/logout.js"></script>
 
   <script>
 
@@ -101,12 +103,6 @@
       document.getElementById('user-output').innerHTML = "Kein Input.";
     }
 
-
-
-    document.getElementById('delete-jwt').addEventListener('click', () => {
-      document.cookie = 'jwt=; max-age=0; path=/';
-      window.location.href = '/';
-    });
   </script>
 </body>
 
